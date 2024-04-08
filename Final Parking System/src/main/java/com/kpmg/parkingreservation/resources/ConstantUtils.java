@@ -10,14 +10,14 @@ public class ConstantUtils {
 	 * The email address used as the sender of reservation confirmation emails. This
 	 * field requires a valid Gmail ID.
 	 */
-	public final static String fromEmail = "frmintern2023@gmail.com";
+	public final static String fromEmail = "**************@gmail.com"; // replace with your own gmail id
 
 	/**
 	 * The password for the email account used to send reservation confirmation
 	 * emails. This field should contain the correct password for the Gmail ID
 	 * specified in the fromEmail field.
 	 */
-	public final static String password = "ED7DA83CB73C7457A47F27AE9984D3F053F6";
+	public final static String password = "*********";  // replace with your own password
 
 	/**
 	 * The SMTP host used to send emails.
