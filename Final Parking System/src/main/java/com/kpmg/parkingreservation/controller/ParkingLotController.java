@@ -1,7 +1,8 @@
 package com.kpmg.parkingreservation.controller;
 
 import com.kpmg.parkingreservation.model.ParkingLot;
-import com.kpmg.parkingreservation.service.ParkingLotServiceImpl;
+import com.kpmg.parkingreservation.service.ParkingLotService;
+import com.kpmg.parkingreservation.service.impl.ParkingLotServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 /**
  * This controller class handles requests related to parking lots.
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("/parking-lots")
 public class ParkingLotController {
@@ -26,7 +27,7 @@ public class ParkingLotController {
 	 * services.
 	 */
 	@Autowired
-	private ParkingLotServiceImpl parkingLotService;
+	private ParkingLotService parkingLotService;
 
 	/**
 	 * 
@@ -53,7 +54,7 @@ public class ParkingLotController {
 	public ResponseEntity<ParkingLot> getParkingLotById(@PathVariable("id") int spotId) {
 		Optional<ParkingLot> parkingLot = parkingLotService.getSpotById(spotId);
 		if (parkingLot.isPresent()) {
-			return new ResponseEntity<>(parkingLot.get(), HttpStatus.OK);
+			return ResponseEntity.ok(parkingLot.get());
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

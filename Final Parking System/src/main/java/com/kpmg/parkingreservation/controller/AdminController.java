@@ -2,11 +2,11 @@ package com.kpmg.parkingreservation.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kpmg.parkingreservation.service.ParkingLotService;
+import com.kpmg.parkingreservation.service.TicketService;
 import com.kpmg.parkingreservation.exception.InvalidTicketRequestException;
 import com.kpmg.parkingreservation.model.ParkingLot;
 import com.kpmg.parkingreservation.model.Ticket;
-import com.kpmg.parkingreservation.pojo.AdminTicketRequest;
-import com.kpmg.parkingreservation.pojo.ClientRequestBody;
-import com.kpmg.parkingreservation.pojo.OtherRequestBody;
-import com.kpmg.parkingreservation.pojo.PartnerRequestBody;
-import com.kpmg.parkingreservation.repository.ParkingLotRepository;
-import com.kpmg.parkingreservation.repository.TicketRepository;
+import com.kpmg.parkingreservation.dto.request.AdminTicketRequest;
+import com.kpmg.parkingreservation.dto.request.ClientRequestBody;
+import com.kpmg.parkingreservation.dto.request.OtherRequestBody;
+import com.kpmg.parkingreservation.dto.request.PartnerRequestBody;
 import com.kpmg.parkingreservation.resources.ConstantUtils;
 import com.kpmg.parkingreservation.resources.EmailUtil;
-//import com.kpmg.parkingreservation.service.ParkingLotService;
-import com.kpmg.parkingreservation.service.TicketServiceImpl;
+
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -36,7 +35,7 @@ import io.swagger.v3.oas.annotations.Operation;
  * different types of users, marking the entry and exit of vehicles in parking
  * spots, and cancelling tickets.
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("/Admin")
 public class AdminController {
@@ -44,17 +43,12 @@ public class AdminController {
 	 * Service layer implementation for the Ticket-related functionalities.
 	 */
 	@Autowired
-	private TicketServiceImpl ticketService;
-	/**
-	 * Repository for storing and retrieving Ticket entities.
-	 */
-	@Autowired
-	private TicketRepository ticketRepository;
+	private TicketService ticketService;
 	/**
 	 * Repository for storing and retrieving ParkingLot entities.
 	 */
 	@Autowired
-	private ParkingLotRepository parkingLotRepository;
+	private ParkingLotService parkingLotService;
 
 	/**
 	 * Endpoint for creating a parking ticket for an employee.
@@ -75,14 +69,11 @@ public class AdminController {
 				ticketRequest.getVehicleNumber(), ticketRequest.getSpotType());
 
 		if (ticket != null) {
-
 			return new ResponseEntity<>(ticket, HttpStatus.CREATED);
 		} else {
 			throw new InvalidTicketRequestException("Invalid ticket request");
 		}
-
 	}
-
 	/**
 	 * Endpoint for creating a parking ticket for a specially-abled person.
 	 * 
@@ -193,26 +184,25 @@ public class AdminController {
 	public ResponseEntity<String> ToggleOccupied(@RequestParam(value = "empId") int empId,
 			@RequestParam(value = "spotId") int spotId) {
 		Ticket ticket = new Ticket();
-		ticket = ticketRepository.findByDateAndIsCancelledAndSpotIdAndEmpId(LocalDate.now(), false, spotId,empId );
+		ticket = ticketService.findByDateAndIsCancelledAndSpotIdAndEmpId(LocalDate.now(), false, spotId,empId );
 		// find the parking lot with the given spotId
-		ParkingLot parkingLot = parkingLotRepository.findBySpotId(spotId);
+		Optional<ParkingLot> parkingLot = parkingLotService.getSpotById(spotId);
 		if (parkingLot == null) {
 			return ResponseEntity.badRequest().body("Invalid spotId");
 		}
 
 		// check if the parking spot is already occupied
-		if (parkingLot.isOccupied()) {
+		if (!parkingLot.isPresent()) {
 			return ResponseEntity.badRequest().body("Parking spot is already occupied");
 		}
 
 		// update the parking lot's isOccupied field to true
-		parkingLot.setOccupied(true);
+		parkingLot.get().setOccupied(true);
 		ticket.setEntryTime(LocalTime.now());
-//	    ticket.setExitTime(LocalTime.now());
 
 		// save the changes to the database
-		parkingLotRepository.save(parkingLot);
-		ticketRepository.save(ticket);
+		parkingLotService.saveParkingLot(parkingLot.get());
+		ticketService.saveTicket(ticket);
 
 		return ResponseEntity.ok(" updated successfully");
 
@@ -233,25 +223,21 @@ public class AdminController {
 	public ResponseEntity<String> Occupied(@RequestParam(value = "empId") int empId,
 			@RequestParam(value = "spotId") int spotId) {
 		Ticket ticket = new Ticket();
-		ticket = ticketRepository.findByDateAndIsCancelledAndSpotIdAndEmpId(LocalDate.now(), false, spotId,empId);
+		ticket = ticketService.findByDateAndIsCancelledAndSpotIdAndEmpId(LocalDate.now(), false, spotId,empId);
 		// find the parking lot with the given spotId
-		ParkingLot parkingLot = parkingLotRepository.findBySpotId(spotId);
-		if (parkingLot == null || ticket == null) {
+		Optional<ParkingLot> parkingLot = parkingLotService.getSpotById(spotId);
+		if (!parkingLot.isPresent() || ticket == null) {
 			return ResponseEntity.badRequest().body("No record found to update");
 		}
-
+		ParkingLot parkingLotObj = parkingLot.get();
 		// check if the parking spot is already occupied
-		if (parkingLot.isOccupied()) {
-			parkingLot.setOccupied(false);
+		if (parkingLotObj.isOccupied()) {
+			parkingLotObj.setOccupied(false);
 			ticket.setExitTime(LocalTime.now());
 			ticket.setCancelled(true);
-
 		}
-
-		parkingLotRepository.save(parkingLot);
-
+		parkingLotService.saveParkingLot(parkingLotObj);
 		return ResponseEntity.ok(" updated successfully");
-
 	}
 
 	/**
@@ -271,5 +257,4 @@ public class AdminController {
 		ticketService.cancelTicket(empId, spotId);
 		return ResponseEntity.ok("Ticket canceled successfully");
 	}
-
 }

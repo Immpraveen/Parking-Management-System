@@ -20,10 +20,8 @@ import com.kpmg.parkingreservation.repository.ParkingLotRepository;
 import com.kpmg.parkingreservation.repository.TicketRepository;
 import com.kpmg.parkingreservation.repository.UserRepository;
 
-import com.kpmg.parkingreservation.service.ParkingLotServiceImpl;
-import com.kpmg.parkingreservation.service.TicketServiceImpl;
-import com.kpmg.parkingreservation.service.UserServiceImpl;
-import com.kpmg.parkingreservation.model.*;
+import com.kpmg.parkingreservation.service.impl.ParkingLotServiceImpl;
+import com.kpmg.parkingreservation.service.impl.TicketServiceImpl;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.kpmg.parkingreservation")

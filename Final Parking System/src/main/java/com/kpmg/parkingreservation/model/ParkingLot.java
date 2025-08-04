@@ -1,5 +1,7 @@
 package com.kpmg.parkingreservation.model;
 
+import org.springframework.http.ResponseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 //import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 //import javax.persistence.ManyToOne;
 //import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import java.util.Optional;
 
 //import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,13 +32,13 @@ public class ParkingLot {
 	private int spotId;
 
 	/**
-	 * The type of parking spot, e.g. "compact" or "large".
+	 * The type of parking spot, e.g. "CAR" or "BIKE".
 	 */
 	@Column
 	private String spotType;
 
 	/**
-	 * The type of vehicle that can park in the spot, e.g. "car" or "motorcycle".
+	 * The type of vehicle that can park in the spot, e.g. "CAR" or "BIKE".
 	 */
 	@Column
 	private String vehicleType;
@@ -183,5 +186,4 @@ public class ParkingLot {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 }

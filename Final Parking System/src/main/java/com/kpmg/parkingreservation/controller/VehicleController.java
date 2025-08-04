@@ -1,7 +1,8 @@
 package com.kpmg.parkingreservation.controller;
 
 import com.kpmg.parkingreservation.model.Vehicle;
-import com.kpmg.parkingreservation.pojo.VehicleDTO;
+import com.kpmg.parkingreservation.dto.request.VehicleDTO;
+import com.kpmg.parkingreservation.security.context.UserContext;
 import com.kpmg.parkingreservation.service.VehicleService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,30 +11,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * This class is a RESTful controller that handles HTTP requests related to
  * vehicles.
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {
 
 	@Autowired
 	private VehicleService vehicleService;
+	@Autowired
+	private UserContext userContext;
 
 	/**
 	 * Retrieves all vehicles associated with a given employee ID.
 	 *
-	 * @param empId the employee ID for which to retrieve vehicles
 	 * @return a ResponseEntity containing a list of VehicleDTO objects and an HTTP
-	 *         status code
+	 * status code
 	 */
 	@Operation(summary = "Retrieves all vehicles associated with a given employee ID")
-	@GetMapping("/{empId}")
-	public ResponseEntity<List<VehicleDTO>> getAllVehiclesByEmpId(@PathVariable int empId) {
+	@GetMapping
+	public ResponseEntity<List<VehicleDTO>> getAllVehiclesByEmpId() {
+		Integer empId = userContext.getEmpId(); // Get employee ID from UserContext
 		List<Vehicle> vehicles = vehicleService.getAllVehiclesByEmpId(empId);
 		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
 		for (Vehicle vehicle : vehicles) {
@@ -45,18 +49,15 @@ public class VehicleController {
 	/**
 	 * Adds a new vehicle to a user (employee) with the provided employee ID.
 	 *
-	 * @param empId      the employee ID to which to add the vehicle
-	 * @param vehicleDTO the VehicleDTO object containing the details of the new
-	 *                   vehicle
+	 * @param vehicleDTO the VehicleDTO object containing the details of the new vehicle
 	 * @return a ResponseEntity containing the added VehicleDTO object and an HTTP
-	 *         status code
+	 * status code
 	 */
 	@Operation(summary = "Adds a new vehicle to a user (employee) with the provided employee ID")
-	@PostMapping("/{empId}")
-	public ResponseEntity<VehicleDTO> addVehicleToUser(@PathVariable int empId, @RequestBody VehicleDTO vehicleDTO) {
-		Vehicle vehicle = new Vehicle();
-		vehicle.setVehicleNumber(vehicleDTO.getVehicleNumber());
-		vehicle.setVehicleType(vehicleDTO.getVehicleType());
+	@PostMapping
+	public ResponseEntity<VehicleDTO> addVehicleToUser(@RequestBody @Valid VehicleDTO vehicleDTO) {
+		Integer empId = userContext.getEmpId(); // Get employee ID from UserContext
+		Vehicle vehicle = new Vehicle(vehicleDTO.getVehicleNumber(), vehicleDTO.getVehicleType());
 		Vehicle addedVehicle = vehicleService.addVehicleToUser(empId, vehicle);
 		VehicleDTO addedVehicleDTO = new VehicleDTO(addedVehicle);
 		return ResponseEntity.ok(addedVehicleDTO);
@@ -72,7 +73,7 @@ public class VehicleController {
 	 *         failure
 	 */
 	@Operation(summary = "Updates the details of a vehicle with the given ID")
-	@PutMapping("/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<Void> updateVehicle(@PathVariable Long id, @RequestBody VehicleDTO vehicleDTO) {
 		Vehicle vehicle = new Vehicle();
 		vehicle.setVehicleNumber(vehicleDTO.getVehicleNumber());
@@ -104,7 +105,7 @@ public class VehicleController {
 	 */
 
 	@Operation(summary = "Retrieves a vehicle with the given VehicleID")
-	@GetMapping("vehicleid/{id}")
+	@GetMapping("vehicleId/{id}")
 
 	public ResponseEntity<VehicleDTO> getVehicleById(@PathVariable Long id) {
 

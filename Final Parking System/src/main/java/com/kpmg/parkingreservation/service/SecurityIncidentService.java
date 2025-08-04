@@ -1,47 +1,44 @@
 package com.kpmg.parkingreservation.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.kpmg.parkingreservation.model.SecurityIncident;
-import com.kpmg.parkingreservation.repository.SecurityIncidentRepository;
+import org.springframework.stereotype.Service;
 
-/**
- * The SecurityIncidentService class provides methods to manage security
- * incidents and associated tickets.
- */
-@Service
-public class SecurityIncidentService {
-
-	/**
-	 * Repository for storing and retrieving security incidents.
-	 */
-	@Autowired
-	private SecurityIncidentRepository securityIncidentRepository;
-
-	/**
-	 * Repository for storing and retrieving tickets associated with security
-	 * incidents.
-	 */
-
-	/**
-	 * Creates a new security incident in the repository.
-	 * 
-	 * @param securityIncident the security incident to create
-	 * @return the created security incident, including any generated IDs or
-	 *         timestamps
-	 */
-	public SecurityIncident createSecurityIncident(SecurityIncident securityIncident) {
-		return securityIncidentRepository.save(securityIncident);
-	}
-
-	/**
-	 * Retrieves all security incidents from the repository.
-	 * 
-	 * @return a list of all security incidents in the repository
-	 */
-	public List<SecurityIncident> getAllIncidents() {
-		// TODO: Implement this method
-		return null;
-	}
+public interface SecurityIncidentService {
+    /**
+     * Creates a new security incident.
+     *
+     * @param securityIncident The security incident to create.
+     * @return The created SecurityIncident.
+     */
+    SecurityIncident createSecurityIncident(SecurityIncident securityIncident);
+    /**
+     * Retrieves all security incidents.
+     *
+     * @return A list of all SecurityIncident objects.
+     */
+    List<SecurityIncident> getAllIncidents();
+    /**
+     * Retrieves security incidents by employee ID.
+     *
+     * @param empId The employee ID to filter incidents.
+     * @return A list of SecurityIncident objects associated with the given employee ID.
+     */
+    List<SecurityIncident> getIncidentsByEmpId(int empId);
+    /**
+     * Retrieves a security incident by its ID.
+     *
+     * @param id The ID of the security incident to retrieve.
+     * @return The SecurityIncident with the specified ID, or null if not found.
+     */
+    SecurityIncident getIncidentById(long id);
+    /**
+     *  Generates an Excel file containing security incidents.
+     *
+     * @param incidents The list of security incidents to include in the Excel file.
+     * @return A ByteArrayInputStream containing the generated Excel file.
+     */
+    ByteArrayInputStream generateExcel(List<SecurityIncident> incidents) throws IOException;
 }
