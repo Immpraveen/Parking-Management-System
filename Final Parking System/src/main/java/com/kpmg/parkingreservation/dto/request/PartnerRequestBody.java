@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 /**
  * This class represents a request body object that is sent as part of an HTTP

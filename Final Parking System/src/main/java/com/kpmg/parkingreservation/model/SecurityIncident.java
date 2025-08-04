@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kpmg.parkingreservation.enums.IncidentType;
-import com.kpmg.parkingreservation.enums.UserType;
 
 /**
  * Represents a security incident that has occurred and has been reported.

@@ -44,6 +44,11 @@ public class Vehicle {
 	@Enumerated(EnumType.STRING)
 	private VehicleType vehicleType;
 
+	public Vehicle(String vehicleNumber, VehicleType vehicleType) {
+		this.vehicleNumber = vehicleNumber;
+		this.vehicleType = vehicleType;
+	}
+
 	/**
 	 * Get the ID of the vehicle.
 	 * 

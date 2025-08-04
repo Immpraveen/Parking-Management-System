@@ -23,10 +23,14 @@ public interface SecurityIncidentRepository extends JpaRepository<SecurityIncide
 
 	/**
 	 * Find all security incidents with a status of false.
-	 * 
 	 * @return a list of all security incidents with a status of false
 	 */
 	List<SecurityIncident> findAllByStatusFalse();
-
+	/**
+	 * Find all security incidents associated with a user by their employee ID.
+	 *
+	 * @param empId the employee ID of the user whose security incidents to find
+	 * @return a list of security incidents associated with the user
+	 */
 	List<SecurityIncident> findByUser_EmpId(int empId);
 }

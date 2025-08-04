@@ -1,8 +1,10 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 /**
  * OtherRequestBody is a Java class that represents a request body with employee
  * and vehicle details.
+ * It is to generate a ticket for user not registered in the system
+ * can be used by admin to generate a ticket for user not registered in the system.
  */
 public class OtherRequestBody {
 	/**

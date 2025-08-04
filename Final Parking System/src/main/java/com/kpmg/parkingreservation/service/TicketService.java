@@ -66,10 +66,7 @@ public interface TicketService {
 	 * @throws Exception If the parking spot is not available or the input is
 	 *                   invalid.
 	 */
-	Ticket makeAdminTicket(int empId, String vehicleType, String vehicleNumber, String string) throws Exception;
-
-	// These methods are commented out and may need description if needed in the
-	// future
+	Ticket makeAdminTicket(int empId, String vehicleType, String vehicleNumber, String spotType) throws Exception;
 
 	/**
 	 * Generates a monthly report for the given month.
@@ -95,5 +92,8 @@ public interface TicketService {
 	 */
 	List<Ticket> generateYearlyReport(int year);
 
-	Ticket findLatestByEmpIdAndIsCancelledAndDate(int empId, boolean b, LocalDate incidentDate);
+	Ticket findLatestByEmpIdAndIsCancelledAndDate(int empId, boolean isCancelled, LocalDate incidentDate);
+
+	Ticket findByDateAndIsCancelledAndSpotIdAndEmpId(LocalDate date, boolean isCancelled, int spotId, int empId);
+	Ticket makeAdminTicketEmp(int empId, String vehicleType, String vehicleNumber, String spotType) ;
 }

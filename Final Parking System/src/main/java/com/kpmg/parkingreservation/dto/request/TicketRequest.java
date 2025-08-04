@@ -1,31 +1,33 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 /**
- * This class represents a ticket request made by an employee for a parking
- * spot.
+ * Represents a request for a parking ticket, including employee ID, vehicle
+ * type, vehicle number, and spot type.
  */
-public class AdminTicketRequest {
+public class TicketRequest {
 	/**
 	 * The ID of the employee making the ticket request.
 	 */
 	private int empId;
 	/**
-	 * The type of vehicle for which the ticket request is made.
+	 * The type of vehicle for which a parking spot is being requested.
 	 */
 	private String vehicleType;
+
 	/**
-	 * The number of the vehicle for which the ticket request is made.
+	 * The number of the vehicle for which a parking spot is being requested.
 	 */
 	private String vehicleNumber;
 	/**
-	 * The type of parking spot requested.
+	 * The type of parking spot being requested (e.g., BIKE, CAR, etc.).
 	 */
 	private String spotType;
 
+//    private ZonedDateTime startTime;
 	/**
 	 * Returns the ID of the employee making the ticket request.
-	 *
-	 * @return the ID of the employee
+	 * 
+	 * @return the employee ID
 	 */
 	public int getEmpId() {
 		return empId;
@@ -33,34 +35,35 @@ public class AdminTicketRequest {
 
 	/**
 	 * Sets the ID of the employee making the ticket request.
-	 *
-	 * @param empId the ID of the employee
+	 * 
+	 * @param empId the employee ID
 	 */
 	public void setEmpId(int empId) {
 		this.empId = empId;
 	}
 
 	/**
-	 * Returns the type of vehicle for which the ticket request is made.
-	 *
-	 * @return the type of vehicle
+	 * Returns the type of vehicle for which a parking spot is being requested.
+	 * 
+	 * @return the vehicle type
 	 */
 	public String getVehicleType() {
 		return vehicleType;
 	}
 
 	/**
-	 * Sets the type of vehicle for which the ticket request is made.
-	 *
-	 * @param vehicleType the type of vehicle
+	 * Sets the type of vehicle for which a parking spot is being requested.
+	 * 
+	 * @param vehicleType the vehicle type
 	 */
 	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
 	}
 
 	/**
-	 * Returns the number of the vehicle for which the ticket request is made.
-	 *
+	 * Returns the number of the vehicle for which a parking spot is being
+	 * requested.
+	 * 
 	 * @return the vehicle number
 	 */
 	public String getVehicleNumber() {
@@ -68,8 +71,8 @@ public class AdminTicketRequest {
 	}
 
 	/**
-	 * Sets the number of the vehicle for which the ticket request is made.
-	 *
+	 * Sets the number of the vehicle for which a parking spot is being requested.
+	 * 
 	 * @param vehicleNumber the vehicle number
 	 */
 	public void setVehicleNumber(String vehicleNumber) {
@@ -77,7 +80,7 @@ public class AdminTicketRequest {
 	}
 
 	/**
-	 * Returns the type of parking spot requested.
+	 * Returns the type of parking spot being requested.
 	 *
 	 * @return the spot type
 	 */
@@ -86,7 +89,7 @@ public class AdminTicketRequest {
 	}
 
 	/**
-	 * Sets the type of parking spot requested.
+	 * Sets the type of parking spot being requested.
 	 *
 	 * @param spotType the spot type
 	 */
@@ -95,9 +98,10 @@ public class AdminTicketRequest {
 	}
 
 	/**
-	 * Returns a string representation of the object.
-	 *
-	 * @return a string representation of the object
+	 * Returns a string representation of the object's state, including employee ID,
+	 * vehicle type, vehicle number, and spot type.
+	 * 
+	 * @return a string representation of the object's state
 	 */
 	@Override
 	public String toString() {

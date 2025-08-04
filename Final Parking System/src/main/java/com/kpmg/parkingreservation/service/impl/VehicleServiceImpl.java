@@ -1,9 +1,10 @@
-package com.kpmg.parkingreservation.service;
+package com.kpmg.parkingreservation.service.impl;
 
 import com.kpmg.parkingreservation.repository.*;
 import com.kpmg.parkingreservation.exception.ResourceNotFoundException;
 import com.kpmg.parkingreservation.model.User;
 import com.kpmg.parkingreservation.model.Vehicle;
+import com.kpmg.parkingreservation.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

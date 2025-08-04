@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 /**
  * A class representing a user login request, which includes a username and
@@ -16,7 +16,6 @@ public class UserLoginRequest {
 
 	/**
 	 * Gets the username of the user.
-	 * 
 	 * @return The username of the user.
 	 */
 	public String getUserName() {
@@ -25,7 +24,6 @@ public class UserLoginRequest {
 
 	/**
 	 * Sets the username of the user.
-	 * 
 	 * @param userName The username of the user.
 	 */
 	public void setUserName(String userName) {
@@ -34,7 +32,6 @@ public class UserLoginRequest {
 
 	/**
 	 * Gets the password of the user.
-	 * 
 	 * @return The password of the user.
 	 */
 	public String getPassword() {
@@ -43,7 +40,6 @@ public class UserLoginRequest {
 
 	/**
 	 * Sets the password of the user.
-	 * 
 	 * @param password The password of the user.
 	 */
 	public void setPassword(String password) {

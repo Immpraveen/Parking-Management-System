@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.service;
+package com.kpmg.parkingreservation.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,6 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.kpmg.parkingreservation.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,6 @@ public class TicketServiceImpl implements TicketService {
 			t2.setVehicleNumber(vehicleNumber);
 			t2.setSpotId(parkinglot.getSpotId());
 			User user = new User();
-			user = userRepository.findByEmpId(empId);
 			EmailUtil.sendEmail(user.getUsername(), ConstantUtils.resDone, "reservation done for " + t2.toString());
 			return ticketRepository.save(t2);
 		} else if (!parkinglotrepository.findBySpotId(ticket.getSpotId()).isBooked()) {
@@ -197,7 +198,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	public Ticket makeAdminTicketEmp(int empId, String vehicleType, String vehicleNumber, String spotType)
-			throws Exception {
+			 {
 		ParkingLot parkinglot = new ParkingLot();
 		Ticket ticket = new Ticket();
 		ticket = ticketRepository.findByDateAndEmpIdAndIsCancelled(LocalDate.now(), empId, false);
@@ -205,8 +206,7 @@ public class TicketServiceImpl implements TicketService {
 			parkinglot = parkinglotrepository.findFirstByVehicleTypeAndSpotTypeAndIsBookedOrderBySpotId(vehicleType,
 					spotType, false);
 			if (parkinglot == null) {
-
-				throw new Exception("Spot is not available.");
+				return null; // Spot is not available
 			}
 
 			parkinglot.setBooked(true);
@@ -247,15 +247,22 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	public Ticket findLatestByEmpIdAndIsCancelledAndDate(int empId, boolean b, LocalDate incidentDate) {
-		List<Ticket> tickets = getAllTickets(); // replace this with your actual implementation to get the list of all
-												// tickets
-
+		List<Ticket> tickets = getAllTickets();
 		Optional<Ticket> optionalTicket = tickets.stream().filter(t -> t.getEmpId() == empId)
 				.filter(t -> t.isCancelled() == b).filter(t -> t.getDate().equals(incidentDate))
 				.sorted(Comparator.comparing(Ticket::getDate).reversed()).findFirst();
 
 		if (optionalTicket.isPresent()) {
 			return optionalTicket.get();
+		} else {
+			return null;
+		}
+	}
+
+	public Ticket findByDateAndIsCancelledAndSpotIdAndEmpId(LocalDate date, boolean isCancelled, int spotId, int empId) {
+		Ticket ticket = ticketRepository.findByDateAndIsCancelledAndSpotIdAndEmpId(date, isCancelled, spotId, empId);
+		if (ticket!=null) {
+			return ticket;
 		} else {
 			return null;
 		}

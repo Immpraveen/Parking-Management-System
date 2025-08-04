@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 /**
  * The UpdateIncidentDTO class represents a data transfer object that holds

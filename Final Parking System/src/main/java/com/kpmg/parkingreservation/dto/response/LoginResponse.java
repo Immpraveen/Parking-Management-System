@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.response;
 
 import com.kpmg.parkingreservation.enums.UserType;
 
@@ -14,6 +14,7 @@ public class LoginResponse {
 	private UserType type;
 	/** Indicates whether the user was authenticated successfully. */
 	private boolean isAuth;
+
 
 	/**
 	 * Constructs a new LoginResponse object with the given employee ID, user type,
@@ -31,7 +32,6 @@ public class LoginResponse {
 
 	/**
 	 * Returns the employee ID of the authenticated user.
-	 * 
 	 * @return the employee ID of the authenticated user
 	 */
 	public long getEmpId() {
@@ -40,7 +40,6 @@ public class LoginResponse {
 
 	/**
 	 * Returns the type of user (e.g. admin, manager, employee).
-	 * 
 	 * @return the type of user
 	 */
 	public UserType getType() {
@@ -49,7 +48,6 @@ public class LoginResponse {
 
 	/**
 	 * Returns whether the user was authenticated successfully.
-	 * 
 	 * @return true if the user was authenticated successfully, false otherwise
 	 */
 	public boolean isAuth() {

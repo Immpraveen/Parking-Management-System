@@ -1,8 +1,9 @@
-package com.kpmg.parkingreservation.service;
+package com.kpmg.parkingreservation.service.impl;
 
 import com.kpmg.parkingreservation.model.ParkingLot;
 import com.kpmg.parkingreservation.repository.*;
 
+import com.kpmg.parkingreservation.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

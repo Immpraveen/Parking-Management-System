@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 import java.time.LocalDate;
 

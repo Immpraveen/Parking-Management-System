@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 import com.kpmg.parkingreservation.enums.UserType;
 import com.kpmg.parkingreservation.model.User;

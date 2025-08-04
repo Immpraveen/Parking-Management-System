@@ -190,4 +190,12 @@ public class User {
 		this.empId = empId;
 	}
 
+	public User orElseThrow(Object userNotFound) {
+		return this;
+	}
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
 }

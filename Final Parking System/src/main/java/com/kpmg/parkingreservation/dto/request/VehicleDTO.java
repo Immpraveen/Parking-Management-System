@@ -1,7 +1,10 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.request;
 
 import com.kpmg.parkingreservation.enums.VehicleType;
 import com.kpmg.parkingreservation.model.Vehicle;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * A class representing a vehicle data transfer object (DTO). A DTO is an object
@@ -18,11 +21,13 @@ public class VehicleDTO {
 	/**
 	 * The vehicle number, typically the license plate number.
 	 */
+	@NotBlank(message = "Vehicle number cannot be blank")
 	private String vehicleNumber;
 
 	/**
 	 * The type of vehicle, represented as a VehicleType object.
 	 */
+	@NotNull(message = "Vehicle type cannot be null")
 	private VehicleType vehicleType;
 
 	/**

@@ -1,4 +1,4 @@
-package com.kpmg.parkingreservation.pojo;
+package com.kpmg.parkingreservation.dto.common;
 
 /**
  * Represents an error response that can be returned by an API endpoint.

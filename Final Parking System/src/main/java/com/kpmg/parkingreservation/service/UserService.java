@@ -1,7 +1,7 @@
 package com.kpmg.parkingreservation.service;
 
 import com.kpmg.parkingreservation.model.User;
-import com.kpmg.parkingreservation.pojo.UserRegistration;
+import com.kpmg.parkingreservation.dto.request.UserRegistration;
 
 /**
  * This interface defines methods for registering and retrieving users.
@@ -13,25 +13,7 @@ public interface UserService {
 	 *
 	 * @param registration the user registration to add
 	 */
-	public void addRegistration(UserRegistration registration);
-
-	/**
-	 * Retrieves a user by their username and password.
-	 *
-	 * @param username the username of the user to retrieve
-	 * @param password the password of the user to retrieve
-	 * @return the user with the matching username and password, or null if not
-	 *         found
-	 */
-	public User getRegistrationByUsernameAndPassword(String username, String password);
-
-	/**
-	 * Retrieves a user by their username.
-	 *
-	 * @param username the username of the user to retrieve
-	 * @return the user with the matching username, or null if not found
-	 */
-	public Object getRegistrationByUsername(String username);
+    public void addRegistration(UserRegistration registration);
 
 	/**
 	 * Retrieves a user by their ID.
@@ -44,10 +26,10 @@ public interface UserService {
 	/**
 	 * Retrieves a user by their username.
 	 *
-	 * @param userName the username of the user to retrieve
+	 * @param username the username of the user to retrieve
 	 * @return the user with the matching username, or null if not found
 	 */
-	public User findByuserName(String userName);
+	public User getByUsername(String username);
 
 	/**
 	 * Saves a user to the system.
