@@ -1,12 +1,17 @@
 import React,{useState,useEffect} from "react";
+import Cookies from "js-cookie";
 import { Table, Button } from "react-bootstrap";
 
 function ActiveVehicle(){
     const [vehicles, setVehicles] = useState([]);
+    const token = Cookies.get("token");
     const handleDeleteVehicle = async (vehicleId) => {
         try {
             await fetch(`http://localhost:8080/api/vehicles/${vehicleId}`, {
                 method: "DELETE",
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
             });
             fetchVehicles();
         } catch (error) {
@@ -18,10 +23,14 @@ function ActiveVehicle(){
     }, []);
     const fetchVehicles = async () => {
 
-        const empId = JSON.parse(localStorage.getItem('userData')).empId;
+        const token = Cookies.get("token");
 
         try {
-            const response = await fetch(`http://localhost:8080/api/vehicles/${empId}`);
+            const response = await fetch(`http://localhost:8080/api/vehicles/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const data = await response.json();
             setVehicles(data);
         } catch (error) {

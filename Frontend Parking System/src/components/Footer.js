@@ -4,7 +4,7 @@ function Footer() {
     return (
         <div>
             <div class="container text-center">
-               <small> © 2023 All copyright reserved by KPMG-FRM Interns</small>
+               <small> © 2025 All copyright reserved by Developer</small>
             </div>
         </div>
     )
