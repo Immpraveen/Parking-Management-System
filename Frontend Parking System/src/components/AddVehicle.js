@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 import { Button, Form, Container } from "react-bootstrap";
 
 function AddVehicle() {
@@ -8,12 +9,14 @@ function AddVehicle() {
 
   const handleAddVehicle = async (event) => {
     const empId = JSON.parse(localStorage.getItem("userData")).empId;
+    const token = Cookies.get("token");
     event.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8080/api/vehicles/${empId}`, {
+      const response = await fetch(`http://localhost:8080/api/vehicles`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           vehicleType,

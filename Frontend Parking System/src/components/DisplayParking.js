@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, Form, Row, Col } from "react-bootstrap";
+import Cookies from "js-cookie";
 
 function DisplayParking() {
     const [entries, setEntries] = useState([]);
@@ -11,13 +12,26 @@ function DisplayParking() {
     const [entriesPerPage, setEntriesPerPage] = useState(10);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch("http://localhost:8080/parking-lots");
+    const fetchData = async () => {
+        const token = Cookies.get("token");
+        const response = await fetch("http://localhost:8080/parking-lots", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
             const data = await response.json();
             setEntries(data);
-        };
-        fetchData();
-    }, []);
+        } else {
+            console.error("Failed to fetch parking lots:", response.status);
+        }
+    };
+
+    fetchData();
+}, []);
 
     const handleSpotTypeChange = (event) => {
         setSpotType(event.target.value);

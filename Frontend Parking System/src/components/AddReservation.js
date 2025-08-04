@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
+import Cookies from "js-cookie";
 
 function AddReservation() {
     const [vehicleType, setVehicleType] = useState("");
@@ -21,12 +22,14 @@ function AddReservation() {
 
     const handleAddReservation = async (event) => {
         event.preventDefault();
+        const token = Cookies.get("token");
         if (spotType === "EMPLOYEE")
             try {
                 const response = await fetch("http://localhost:8080/Admin/employeeticket", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         empId,
@@ -52,10 +55,12 @@ function AddReservation() {
             }
         else if (spotType === "PARTNER")
             try {
+                const token = Cookies.get("token");
                 const response = await fetch("http://localhost:8080/Admin/partnerticket", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         empId,
@@ -80,10 +85,12 @@ function AddReservation() {
             }
         else if (spotType === "SPECIAL_ABLED") {
             try {
+                const token = Cookies.get("token");
                 const response = await fetch("http://localhost:8080/Admin/speciallyabledticket", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         empId,
@@ -110,10 +117,12 @@ function AddReservation() {
         }
         else if (spotType === "CLIENT") {
             try {
+                const token = Cookies.get("token");
                 const response = await fetch("http://localhost:8080/Admin/clientticket", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         empId,
@@ -139,10 +148,12 @@ function AddReservation() {
         }
         else {
             try {
+                const token = Cookies.get("token");
                 const response = await fetch("http://localhost:8080/Admin/otherticket", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         empId,

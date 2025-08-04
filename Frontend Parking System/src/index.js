@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Cookies from "js-cookie";
 import './index.css';
 
 import Services from "./pages/Services"
@@ -17,9 +18,8 @@ import AdminServices from './pages/AdminServices';
 import ForgotPassword from './pages/ForgotPassword';
 // Define a wrapper component that checks for authentication status
 function AuthWrapper({ children }) {
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  const isAuthenticated = userData && userData.auth;
-  if (isAuthenticated) {
+  const token = Cookies.get("token");
+  if (token) {
     return children;
   } else {
     return <Login />;

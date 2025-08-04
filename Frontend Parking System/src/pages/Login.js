@@ -3,6 +3,8 @@ import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import LoginNavbar from "../components/LoginNavbar";
 
+import Cookies from "js-cookie";
+
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -20,15 +22,21 @@ function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userName: userName, password: password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.auth) {
+      .then(async (response) => {
+        if (response.status === 200) {
+          const data = await response.json();
+          // Store JWT token in cookies
+          Cookies.set("token", data.token, { expires: 1 }); // expires in 1 day
           const dataString = JSON.stringify(data);
           localStorage.setItem("userData", dataString);
           if (data.type === "ADMIN") navigate("/adminservices");
           else navigate("/services");
+        } else if (response.status === 401) {
+          alert("Invalid credentials");
+          setUserName("");
+          setPassword("");
         } else {
-          alert("Invalid username or password");
+          alert("An error occurred while logging in");
           setUserName("");
           setPassword("");
         }
